@@ -1,0 +1,196 @@
+:root {
+  --page-text: #18181b;
+  --hero-title: #bef264;
+  --hero-subtitle: #5eead4;
+  --card-bg: rgba(255, 255, 255, 0.8);
+  --card-border: rgba(24, 24, 27, 0.1);
+  --steps-bg: #18181b;
+  --steps-text: #f4f4f5;
+  --step-accent: #fcd34d;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--page-text);
+  background:
+    radial-gradient(circle at 10% 10%, #ffe6cc 0%, transparent 40%),
+    radial-gradient(circle at 90% 5%, #ffd8a8 0%, transparent 36%),
+    linear-gradient(135deg, #f7f4ed 0%, #f2ede4 45%, #ede6db 100%);
+}
+
+.page-shell {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-image {
+  pointer-events: none;
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  height: 50vh;
+  background-image:
+    linear-gradient(to bottom, rgba(10, 10, 10, 0.42), rgba(10, 10, 10, 0.18) 58%, rgba(10, 10, 10, 0)),
+    url("/CarBodyworkManSprayingSilverCar.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+.grid-overlay {
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  opacity: 0.4;
+  background-image:
+    linear-gradient(to right, rgba(20, 20, 20, 0.06) 0.12%, transparent 0.12%),
+    linear-gradient(to bottom, rgba(20, 20, 20, 0.06) 0.12%, transparent 0.12%);
+  background-size: 3.2% 3.2%;
+}
+
+.hero-text-wrap {
+  position: relative;
+  min-height: 50vh;
+  width: 100%;
+}
+
+.hero-text-wrap h1,
+.hero-text-wrap p {
+  position: absolute;
+  left: 0%;
+  margin: 0;
+  z-index: 10;
+}
+
+.hero-text-wrap h1 {
+  top: 0%;
+  color: var(--hero-title);
+  max-width: min(90vw, 64rem);
+  font-size: clamp(2.2rem, 7.3vw, 5.2rem);
+  font-weight: 600;
+  line-height: 0.95;
+  letter-spacing: -0.02em;
+}
+
+.hero-text-wrap p {
+  top: clamp(2.5rem, 8.5vw, 5.45rem);
+  margin-left: 0.08em;
+  color: var(--hero-subtitle);
+  font-size: clamp(0.65rem, 1.6vw, 0.95rem);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+}
+
+.intro-section,
+.services-section,
+.steps-section {
+  width: min(100%, 72rem);
+  margin-inline: auto;
+  padding-inline: clamp(1rem, 3vw, 2.5rem);
+}
+
+.intro-section {
+  padding-bottom: clamp(1.5rem, 3vw, 2.5rem);
+}
+
+.intro-section p {
+  max-width: 42rem;
+  margin: 0;
+  color: #3f3f46;
+  font-size: clamp(1rem, 2.1vw, 1.15rem);
+  line-height: 1.65;
+}
+
+.services-section {
+  padding-bottom: clamp(1.5rem, 3vw, 3rem);
+}
+
+.services-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.service-card {
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  border-radius: 1rem;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.service-card h2 {
+  margin: 0;
+  font-size: 1.25rem;
+}
+
+.service-card p {
+  margin: 0.75rem 0 0;
+  line-height: 1.6;
+  color: #3f3f46;
+}
+
+.steps-section {
+  padding-bottom: clamp(2rem, 6vw, 6rem);
+}
+
+.steps-card {
+  border: 1px solid var(--card-border);
+  border-radius: 1.5rem;
+  background: var(--steps-bg);
+  color: var(--steps-text);
+  padding: clamp(1.25rem, 3vw, 2.5rem) clamp(1rem, 3.5vw, 2.5rem);
+}
+
+.steps-card h3 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3.6vw, 1.9rem);
+  letter-spacing: -0.01em;
+}
+
+.steps-grid {
+  margin-top: 1.75rem;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+.step-item {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.75rem;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+}
+
+.step-label {
+  margin: 0;
+  color: var(--step-accent);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+}
+
+.step-item p {
+  margin: 0.5rem 0 0;
+}
+
+@media (min-width: 768px) {
+  .services-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
