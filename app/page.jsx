@@ -202,30 +202,33 @@ export default function Home() {
           aria-modal="true"
           aria-label="Send Photos"
         >
-          <div className="flex h-full w-full flex-col rounded-2xl border border-white/15 bg-slate-900 p-8 shadow-2xl shadow-cyan-950/40">
-            <div className="flex h-[90%] flex-col">
-              <div className="relative flex items-center justify-center text-center">
-                <h2 className="font-display text-3xl font-bold tracking-wide text-white sm:text-4xl">
+          <div className="flex w-full max-w-7xl max-h-[90vh] flex-col overflow-hidden rounded-2xl border border-white/15 bg-slate-900 p-[clamp(0.75rem,1.8vmin,2rem)] shadow-2xl shadow-cyan-950/40">
+            <div className="flex min-h-0 flex-1 flex-col">
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <h2 className="font-display text-[clamp(1.4rem,3.2vmin,2.25rem)] font-bold tracking-wide text-white">
                   Send Photos
                 </h2>
-                <p className="absolute right-0 top-0 text-right text-sm text-slate-300">
+                <p className="pt-1 text-right text-[clamp(0.7rem,1.3vmin,0.9rem)] text-slate-300">
                   {activePhotoSlide + 1} of {slotGroups.length}
                 </p>
               </div>
 
-              <div className="relative mt-5 flex-1 overflow-hidden rounded-xl border border-white/10 bg-slate-950/70">
+              <div className="relative mt-5 min-h-0 flex-1 max-h-[calc(75%_-_75px)] overflow-hidden rounded-xl border border-white/10 bg-slate-950/70">
                 <div
                   className="flex h-full transition-transform duration-300 ease-out"
                   style={{ transform: `translateX(-${activePhotoSlide * 100}%)` }}
                 >
                   {slotGroups.map((slotPair, groupIndex) => (
-                    <div key={groupIndex} className="grid h-full min-w-full grid-cols-1 place-items-center gap-4 p-6 sm:grid-cols-2 xl:grid-cols-4">
+                    <div
+                      key={groupIndex}
+                      className="grid h-full min-w-full content-start gap-[clamp(0.5rem,1.3vmin,1rem)] overflow-y-auto px-[clamp(0.5rem,1.6vmin,1.5rem)] pb-[calc(clamp(0.5rem,1.6vmin,1.5rem)+15px)] pt-[calc(clamp(0.5rem,1.6vmin,1.5rem)+15px)] sm:grid-cols-2 xl:grid-cols-4"
+                    >
                       {slotPair.map((slotNumber) => {
                         const slotIndex = slotNumber - 1;
 
                         return (
-                          <div key={slotNumber} className="w-full max-w-[320px]">
-                            <p className="mb-1 text-center text-xs font-semibold uppercase tracking-[0.14em] text-cyan-300">
+                          <div key={slotNumber} className="mx-auto w-full max-w-[clamp(11rem,25vmin,20rem)]">
+                            <p className="mb-1 text-center text-[clamp(0.6rem,1.2vmin,0.75rem)] font-semibold uppercase tracking-[0.14em] text-cyan-300">
                               Description
                             </p>
                             <input
@@ -233,10 +236,10 @@ export default function Home() {
                               value={slotDescriptions[slotIndex]}
                               onChange={(event) => handleDescriptionChange(slotIndex, event)}
                               placeholder={`Describe slot ${slotNumber}`}
-                              className="mb-3 w-full rounded-md border border-white/20 bg-slate-950 px-3 py-2 text-center text-sm text-white placeholder:text-center placeholder:text-slate-400"
+                              className="mb-[clamp(0.45rem,1vmin,0.75rem)] w-full rounded-md border border-white/20 bg-slate-950 px-[clamp(0.5rem,1.1vmin,0.75rem)] py-[clamp(0.35rem,0.9vmin,0.55rem)] text-center text-[clamp(0.72rem,1.45vmin,0.9rem)] text-white placeholder:text-center placeholder:text-slate-400"
                             />
 
-                            <label className="flex aspect-square w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-cyan-300/50 bg-cyan-500/5 px-4 py-6 hover:bg-cyan-500/10">
+                            <label className="flex h-[clamp(8.5rem,24vmin,15rem)] w-full cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-cyan-300/50 bg-cyan-500/5 px-[clamp(0.5rem,1.5vmin,1rem)] py-[clamp(0.6rem,1.8vmin,1.5rem)] hover:bg-cyan-500/10">
                               <input
                                 id={`slot-upload-${slotIndex}`}
                                 type="file"
@@ -250,28 +253,30 @@ export default function Home() {
                                   <img
                                     src={slotImages[slotIndex]}
                                     alt={`Uploaded slot ${slotNumber}`}
-                                    className="h-full max-h-52 w-auto rounded-lg object-cover"
+                                    className="h-full max-h-[clamp(5.5rem,16vmin,10rem)] w-auto rounded-lg object-cover"
                                   />
-                                  <p className="mt-3 text-sm font-semibold text-cyan-200">
+                                  <p className="mt-[clamp(0.35rem,0.9vmin,0.75rem)] text-[clamp(0.68rem,1.4vmin,0.9rem)] font-semibold text-cyan-200">
                                     Replace image in slot {slotNumber}
                                   </p>
                                 </>
                               ) : (
                                 <>
-                                  <p className="text-sm uppercase tracking-[0.18em] text-cyan-300">
+                                  <p className="text-[clamp(0.68rem,1.4vmin,0.9rem)] uppercase tracking-[0.18em] text-cyan-300">
                                     Image Slot {slotNumber}
                                   </p>
-                                  <p className="mt-2 text-slate-300">Click to upload image</p>
+                                  <p className="mt-[clamp(0.25rem,0.8vmin,0.5rem)] text-[clamp(0.64rem,1.3vmin,0.85rem)] text-slate-300">
+                                    Click to upload image
+                                  </p>
                                 </>
                               )}
                             </label>
 
-                            <div className="mt-3 grid w-full grid-cols-2 gap-2">
+                            <div className="mt-[clamp(0.45rem,1vmin,0.75rem)] grid w-full grid-cols-2 gap-[clamp(0.3rem,0.8vmin,0.5rem)]">
                               <button
                                 type="button"
                                 onClick={() => handleRemoveImage(slotIndex)}
                                 disabled={!slotImages[slotIndex]}
-                                className="w-full rounded-md bg-cyan-400 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
+                                className="w-full rounded-md bg-cyan-400 px-[clamp(0.4rem,1vmin,0.75rem)] py-[clamp(0.35rem,0.9vmin,0.55rem)] text-[clamp(0.56rem,1.1vmin,0.75rem)] font-bold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
                               >
                                 Remove image
                               </button>
@@ -279,7 +284,7 @@ export default function Home() {
                                 type="button"
                                 onClick={() => handleReplaceImage(slotIndex)}
                                 disabled={!slotImages[slotIndex]}
-                                className="w-full rounded-md bg-cyan-400 px-3 py-2 text-xs font-bold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
+                                className="w-full rounded-md bg-cyan-400 px-[clamp(0.4rem,1vmin,0.75rem)] py-[clamp(0.35rem,0.9vmin,0.55rem)] text-[clamp(0.56rem,1.1vmin,0.75rem)] font-bold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
                               >
                                 Replace image
                               </button>
@@ -292,14 +297,21 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="mt-4 flex items-center justify-between">
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-3">
                 <button
                   type="button"
                   onClick={() => setActivePhotoSlide((current) => Math.max(0, current - 1))}
                   disabled={activePhotoSlide === 0}
-                  className="rounded-md border border-white/20 px-4 py-2 text-sm font-semibold text-white disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-md bg-cyan-400 px-[clamp(0.6rem,1.5vmin,1rem)] py-[clamp(0.35rem,1vmin,0.6rem)] text-[clamp(0.7rem,1.4vmin,0.9rem)] font-bold text-slate-950 transition hover:bg-cyan-300 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Previous
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsSendPhotosOpen(false)}
+                  className="rounded-md bg-red-500 px-[clamp(0.9rem,2vmin,1.25rem)] py-[clamp(0.4rem,1vmin,0.6rem)] text-[clamp(0.7rem,1.4vmin,0.9rem)] font-bold uppercase tracking-[0.12em] text-white transition hover:bg-red-400"
+                >
+                  Close
                 </button>
                 <button
                   type="button"
@@ -309,22 +321,10 @@ export default function Home() {
                     )
                   }
                   disabled={activePhotoSlide === slotGroups.length - 1}
-                  className="rounded-md bg-cyan-400 px-4 py-2 text-sm font-bold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
+                  className="rounded-md bg-cyan-400 px-[clamp(0.6rem,1.5vmin,1rem)] py-[clamp(0.35rem,1vmin,0.6rem)] text-[clamp(0.7rem,1.4vmin,0.9rem)] font-bold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
                 </button>
-              </div>
-            </div>
-
-            <div className="flex h-[10%] items-center justify-center text-center">
-              <div>
-              <button
-                type="button"
-                onClick={() => setIsSendPhotosOpen(false)}
-                className="mt-7 rounded-md bg-cyan-400 px-5 py-2 text-sm font-bold uppercase tracking-[0.12em] text-slate-950 transition hover:bg-cyan-300"
-              >
-                Close
-              </button>
               </div>
             </div>
           </div>
