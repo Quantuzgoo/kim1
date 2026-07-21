@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Space_Grotesk, Rajdhani } from "next/font/google";
+import LoginComingSoonButton from "./login-coming-soon-button";
 import "./globals.css";
 
 const bodyFont = Space_Grotesk({
@@ -54,12 +55,7 @@ export default function RootLayout({ children }) {
               ))}
             </nav>
 
-            <Link
-              href="/quote"
-              className="rounded-md bg-cyan-400 px-4 py-2 text-xs font-extrabold tracking-wide text-slate-950 transition hover:bg-cyan-300 sm:text-sm"
-            >
-              GET QUOTE
-            </Link>
+            <LoginComingSoonButton />
           </div>
         </header>
 

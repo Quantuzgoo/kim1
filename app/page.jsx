@@ -290,15 +290,17 @@ export default function Home() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/quote"
-                className="rounded-md bg-cyan-400 px-5 py-3 text-sm font-bold uppercase tracking-[0.14em] text-slate-950 transition hover:bg-cyan-300"
+                className="rounded-md bg-cyan-400 px-4 py-2 text-center text-sm font-extrabold uppercase tracking-wide text-slate-950 transition hover:bg-cyan-300"
               >
-                Start My Quote
+                Start My
+                <span className="block">Quote</span>
               </Link>
               <Link
-                href="/services"
-                className="rounded-md border border-white/25 bg-white/5 px-5 py-3 text-sm font-bold uppercase tracking-[0.14em] text-white transition hover:bg-white/10"
+                href="/wrap-and-decoration-coming-soon"
+                className="rounded-md bg-cyan-400 px-5 py-3 text-center text-sm font-bold uppercase tracking-[0.14em] text-slate-950 transition hover:bg-cyan-300"
               >
-                View Services
+                Wrap and Decoration
+                <span className="block">(Coming Soon)</span>
               </Link>
             </div>
           </div>
@@ -351,13 +353,18 @@ export default function Home() {
               return (
                 <article key={service.slug} className="rounded-2xl border border-white/10 bg-slate-900/75 p-5">
                   <p className="text-xs uppercase tracking-[0.18em] text-emerald-300">{service.duration}</p>
-                  <h3 className="mt-3 font-display text-3xl font-semibold text-white">{service.name}</h3>
+                  {service.slug === "bumper-scuff-repair" || service.slug === "scratch-paint-repair" || service.slug === "minor-dent-repair" || service.slug === "alloy-wheel-repair" || service.slug === "end-of-lease-refresh" || service.slug === "paint-transfer-removal" ? (
+                    <h3 className="mt-3 font-display text-3xl font-semibold text-white underline underline-offset-4">
+                      <Link href={detailsHref} className="hover:text-cyan-300">
+                        {service.name}
+                      </Link>
+                    </h3>
+                  ) : (
+                    <h3 className="mt-3 font-display text-3xl font-semibold text-white">{service.name}</h3>
+                  )}
                   <p className="mt-3 text-slate-300">{service.summary}</p>
                   <div className="mt-5 flex items-center justify-between">
                     <p className="text-sm font-semibold text-cyan-300">{service.priceBand}</p>
-                    <Link href={detailsHref} className="text-sm font-semibold text-white hover:text-cyan-300">
-                      Details
-                    </Link>
                   </div>
                 </article>
               );
