@@ -2,7 +2,18 @@ services:
   cars:
     build: .
     ports:
-      - "3000:3000"
+      - "3004:3004"
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
+      - DATA_DIR=/app/data
+      - QUOTE_NOTIFICATION_EMAIL=quantuzgoo@gmail.com
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=465
+      - SMTP_USER=quantuzgoo@gmail.com
+      - SMTP_PASS=neeijohrumjozzaa
+      - SMTP_FROM=quantuzgoo@gmail.com
+      - APP_BASE_URL=
+      - SMTP_DEBUG=true
+    volumes:
+      - ./data:/app/data

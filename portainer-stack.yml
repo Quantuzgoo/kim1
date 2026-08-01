@@ -1,0 +1,44 @@
+# Portainer stack for the Cars / Nova Bodyworks app.
+# Deploy in Portainer: Stacks -> Add stack -> paste this (or upload).
+# Prerequisite: load the image first (Images -> Import) from silvercars.tar,
+# which provides the "cars-cars:latest" image referenced below.
+#
+# Secrets/config are already baked into the image, but any value set here
+# overrides the baked-in default. Edit APP_BASE_URL to your public URL.
+
+services:
+  cars:
+    image: silvercars:latest
+    container_name: cars
+    restart: unless-stopped
+    ports:
+      - "3004:3004"
+    environment:
+      - NODE_ENV=production
+      - NEXT_TELEMETRY_DISABLED=1
+      - DATA_DIR=/app/data
+      - QUOTE_NOTIFICATION_EMAIL=quantuzgoo@gmail.com
+      - SMTP_HOST=smtp.gmail.com
+      - SMTP_PORT=465
+      - SMTP_USER=quantuzgoo@gmail.com
+      - SMTP_PASS=neeijohrumjozzaa
+      - SMTP_FROM=quantuzgoo@gmail.com
+      - SMTP_DEBUG=true
+      # Set this to the public URL the site is served on so login links are correct,
+      # e.g. https://cars.yourdomain.com  (leave blank to auto-detect from request headers).
+      - APP_BASE_URL=
+      # Change these before exposing publicly.
+      - ADMIN_EMAIL=admin@novabodyworks.com
+      - ADMIN_PASSWORD=admin123
+    volumes:
+      # Named volume keeps the SQLite DB (users, quotes, photos) across redeploys.
+      - cars_data:/app/data
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:3004/').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  cars_data:

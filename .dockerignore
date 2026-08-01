@@ -17,3 +17,7 @@ pnpm-debug.log*
 README.md
 converted-java-site
 Images
+data
+backups
+docker-build-backups
+*.tar

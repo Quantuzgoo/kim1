@@ -14,7 +14,7 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3004](http://localhost:3004) with your browser to see the result.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
@@ -37,11 +37,19 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 ## Docker Quick Start
 
-Run the app in Docker on `http://localhost:3000`:
+Run the app in Docker on `http://localhost:3004`:
 
 ```bash
 docker compose up -d --build
 ```
+
+For external access (other devices/networks), set a public HTTPS base URL before starting:
+
+```bash
+APP_BASE_URL=https://your-domain.example docker compose up -d --build
+```
+
+If `APP_BASE_URL` is left empty, the app will auto-detect host/protocol from incoming request headers.
 
 View container status:
 

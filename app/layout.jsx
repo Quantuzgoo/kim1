@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { Space_Grotesk, Rajdhani } from "next/font/google";
-import LoginComingSoonButton from "./login-coming-soon-button";
+import AccountMenu from "./account-menu";
+import AdminButton from "./admin-button";
+import BrandLogo from "./brand-logo";
 import "./globals.css";
 
 const bodyFont = Space_Grotesk({
@@ -38,10 +40,7 @@ export default function RootLayout({ children }) {
       <body className="min-h-full bg-slate-950 text-slate-100">
         <header className="sticky top-0 z-50 border-b border-white/10 bg-slate-950/85 backdrop-blur">
           <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
-            <Link href="/" className="font-display text-2xl font-bold tracking-wider">
-              NOVA
-              <span className="ml-2 text-cyan-300">BODYWORKS</span>
-            </Link>
+            <BrandLogo />
 
             <nav className="hidden items-center gap-6 text-sm font-semibold md:flex">
               {navLinks.map((link) => (
@@ -55,7 +54,10 @@ export default function RootLayout({ children }) {
               ))}
             </nav>
 
-            <LoginComingSoonButton />
+            <div className="flex items-center gap-2">
+              <AdminButton />
+              <AccountMenu />
+            </div>
           </div>
         </header>
 

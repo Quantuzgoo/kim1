@@ -65,3 +65,28 @@ body {
 .send-photos-scroll-area::-webkit-scrollbar-thumb:hover {
   background: rgba(103, 232, 249, 0.9);
 }
+
+.modal-scroll-area {
+  max-height: calc(90vh - 90px);
+  scrollbar-width: thin;
+  scrollbar-color: rgba(34, 211, 238, 0.8) rgba(15, 23, 42, 0.85);
+  scrollbar-gutter: stable;
+}
+
+.modal-scroll-area::-webkit-scrollbar {
+  width: 12px;
+}
+
+.modal-scroll-area::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.72);
+}
+
+.modal-scroll-area::-webkit-scrollbar-thumb {
+  background: rgba(34, 211, 238, 0.8);
+  border-radius: 9999px;
+  border: 2px solid rgba(15, 23, 42, 0.72);
+}
+
+.modal-scroll-area::-webkit-scrollbar-thumb:hover {
+  background: rgba(103, 232, 249, 0.95);
+}

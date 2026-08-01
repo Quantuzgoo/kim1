@@ -19,10 +19,37 @@ export default function Home() {
   const [capturedPhotoUrl, setCapturedPhotoUrl] = useState(null);
   const [cameraError, setCameraError] = useState("");
   const [isCameraReady, setIsCameraReady] = useState(false);
+  const [isUploadingPhotos, setIsUploadingPhotos] = useState(false);
+  const [uploadMessage, setUploadMessage] = useState("");
+  const [loginState, setLoginState] = useState("");
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const cameraStreamRef = useRef(null);
   const fallbackCameraInputRef = useRef(null);
+
+  const showLoginBanner = loginState === "expired" || loginState === "invalid" || loginState === "success";
+
+  const loginBannerStyles =
+    loginState === "success"
+      ? "border-emerald-300/40 bg-emerald-500/10 text-emerald-100"
+      : "border-amber-300/40 bg-amber-500/10 text-amber-100";
+
+  const loginBannerMessage =
+    loginState === "expired"
+      ? "Your login link has expired. Please request a new link."
+      : loginState === "invalid"
+        ? "This login link is invalid or already used. Please request a new link."
+        : loginState === "success"
+          ? "Signed in successfully."
+          : "";
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const state = params.get("login") || "";
+    if (state === "expired" || state === "invalid" || state === "success") {
+      setLoginState(state);
+    }
+  }, []);
 
   const stopCameraStream = () => {
     if (cameraStreamRef.current) {
@@ -264,8 +291,60 @@ export default function Home() {
     });
   };
 
+  const handleSubmitPhotos = async () => {
+    const filledSlots = slotImages
+      .map((url, index) => ({ url, index }))
+      .filter((slot) => slot.url);
+
+    if (filledSlots.length === 0) {
+      setUploadMessage("Add at least one photo before sending.");
+      return;
+    }
+
+    setIsUploadingPhotos(true);
+    setUploadMessage("");
+
+    try {
+      const formData = new FormData();
+      for (const slot of filledSlots) {
+        const blob = await fetch(slot.url).then((response) => response.blob());
+        formData.append("photos", blob, `slot-${slot.index + 1}.jpg`);
+        formData.append("descriptions", slotDescriptions[slot.index] || "");
+      }
+
+      const response = await fetch("/api/photos", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await response.json();
+
+      if (response.status === 401) {
+        setUploadMessage("Please log in (top right) to send your photos.");
+        return;
+      }
+      if (!response.ok) {
+        setUploadMessage(data.error || "Upload failed. Please try again.");
+        return;
+      }
+
+      setUploadMessage(`Sent ${data.saved} photo${data.saved === 1 ? "" : "s"}! View them in My Account.`);
+    } catch {
+      setUploadMessage("Could not reach the server. Please try again.");
+    } finally {
+      setIsUploadingPhotos(false);
+    }
+  };
+
   return (
     <main className="bg-slate-950">
+      {showLoginBanner && (
+        <section className="px-4 pt-4 sm:px-6 lg:px-8">
+          <div className={`mx-auto w-full max-w-7xl rounded-xl border px-4 py-3 text-sm font-semibold ${loginBannerStyles}`}>
+            {loginBannerMessage}
+          </div>
+        </section>
+      )}
+
       <section className="relative overflow-hidden border-b border-white/10 px-4 py-18 sm:px-6 lg:px-8">
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -544,8 +623,19 @@ export default function Home() {
                   onClick={handleOpenCamera}
                   aria-label="Open camera upload"
                   title="Camera"
-                  className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-white/90 bg-[#ff0000]/35 text-white transition hover:bg-[#ff0000]/35 hover:opacity-50"
-                />
+                  className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-full border border-black bg-black text-white transition hover:bg-black hover:opacity-50"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" aria-hidden="true" className="h-8 w-8">
+                    <path
+                      d="M8.5 7.5L10 5h4l1.5 2.5H18a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V9.5a2 2 0 0 1 2-2h2.5Z"
+                      stroke="currentColor"
+                      strokeWidth="1.8"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    <circle cx="12" cy="13" r="3" stroke="currentColor" strokeWidth="1.8" />
+                  </svg>
+                </button>
                 <button
                   type="button"
                   onClick={() =>
@@ -557,6 +647,18 @@ export default function Home() {
                   className="rounded-md bg-cyan-400 px-[clamp(0.6rem,1.5vmin,1rem)] py-[clamp(0.35rem,1vmin,0.6rem)] text-[clamp(0.7rem,1.4vmin,0.9rem)] font-bold text-slate-950 disabled:cursor-not-allowed disabled:opacity-40"
                 >
                   Next
+                </button>
+              </div>
+
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                <p className="min-h-5 text-sm text-cyan-200">{uploadMessage}</p>
+                <button
+                  type="button"
+                  onClick={handleSubmitPhotos}
+                  disabled={isUploadingPhotos}
+                  className="rounded-md bg-emerald-400 px-[clamp(0.6rem,1.5vmin,1rem)] py-[clamp(0.35rem,1vmin,0.6rem)] text-[clamp(0.7rem,1.4vmin,0.9rem)] font-bold uppercase tracking-wide text-slate-950 transition hover:bg-emerald-300 disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  {isUploadingPhotos ? "Sending..." : "Send to Nova Bodyworks"}
                 </button>
               </div>
             </div>
